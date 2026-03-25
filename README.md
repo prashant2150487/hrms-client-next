@@ -1,0 +1,1 @@
+https://www.figma.com/design/cwYqJZ6LFvggk4eh5zi2f7/HR-Management-Admin---UI-Kit--Community-?node-id=113-7674&p=f&t=MoraV2ZwWnySrObT-0
