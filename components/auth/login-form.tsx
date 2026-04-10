@@ -1,12 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { Eye, EyeOff } from "lucide-react"
+import Input, { PasswordInput } from "@/components/ui/input"
 
 export function LoginForm() {
   const [email, setEmail] = React.useState("robertallen@example.com")
   const [password, setPassword] = React.useState("password123")
-  const [showPassword, setShowPassword] = React.useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -15,45 +14,32 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 w-full mt-10 max-w-[420px]">
-      <div className="space-y-4">
-        {/* Email Field with Floating-like Embedded Label */}
-        <div className="group relative rounded-xl border border-gray-200 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary bg-white px-4 py-2 transition-colors">
-          <label htmlFor="email" className="block text-xs font-medium text-gray-normal group-focus-within:text-primary mb-1">
-            Email Address
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="block w-full border-0 p-0 text-dark placeholder-gray-400 focus:ring-0 sm:text-sm bg-transparent outline-none font-medium"
-            required
-          />
-        </div>
+      <div className="space-y-6">
+        {/* Email Field */}
+        <Input
+          id="email"
+          label="Email Address"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          required
+          size="lg"
+          theme="purple"
+          floatLabel={false}
+        />
 
-        {/* Password Field with Floating-like Embedded Label */}
-        <div className="group relative rounded-xl border border-gray-200 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary bg-white px-4 py-2 transition-colors">
-          <label htmlFor="password" className="block text-xs font-medium text-gray-normal group-focus-within:text-primary mb-1">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="block w-full border-0 p-0 text-dark placeholder-gray-400 focus:ring-0 sm:text-[15px] bg-transparent outline-none pr-10 font-mono tracking-widest"
-              required
-            />
-            <button
-              type="button"
-              className="absolute right-0 top-1/2 -translate-y-1/2 text-dark hover:text-gray-600 transition-colors bg-white px-1"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <Eye className="h-[18px] w-[18px]" /> : <EyeOff className="h-[18px] w-[18px]" />}
-            </button>
-          </div>
-        </div>
+        {/* Password Field */}
+        <PasswordInput
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter your password"
+          required
+          size="lg"
+          theme="purple"
+          floatLabel={false}
+        />
       </div>
 
       <div className="flex items-center justify-between pt-2">
