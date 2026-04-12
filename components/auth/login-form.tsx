@@ -3,9 +3,6 @@
 import * as React from "react"
 import Input, { PasswordInput } from "@/components/ui/input"
 import { Checkbox } from "../ui/checkbox"
-import { AuthService } from "@/features/auth/authApi"
-import { useDispatch } from "react-redux"
-import { setCredentials } from "@/features/auth/authSlice"
 
 export function LoginForm() {
   const [email, setEmail] = React.useState("robertallen@example.com")
