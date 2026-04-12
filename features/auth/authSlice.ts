@@ -20,12 +20,12 @@ const authSlice = createSlice({
       state,
       action: PayloadAction<{
         accessToken: string;
-        refreshToken: string;
+        refreshToken?: string;
         user?: AuthState["user"];
       }>
     ) => {
       state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
+      state.refreshToken = action.payload.refreshToken || null;
       if (action.payload.user) state.user = action.payload.user;
     },
     logout: (state) => {

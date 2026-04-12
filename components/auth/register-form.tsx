@@ -10,7 +10,7 @@ export function RegisterForm() {
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Handle register logic here
     console.log("Register attempt with:", { name, email, password })

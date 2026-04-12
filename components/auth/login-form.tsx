@@ -2,6 +2,10 @@
 
 import * as React from "react"
 import Input, { PasswordInput } from "@/components/ui/input"
+import { Checkbox } from "../ui/checkbox"
+import { AuthService } from "@/features/auth/authApi"
+import { useDispatch } from "react-redux"
+import { setCredentials } from "@/features/auth/authSlice"
 
 export function LoginForm() {
   const [email, setEmail] = React.useState("robertallen@example.com")
@@ -44,16 +48,8 @@ export function LoginForm() {
 
       <div className="flex items-center justify-between pt-2">
         <div className="flex items-center group cursor-pointer">
-          <input
-            id="remember"
-            type="checkbox"
-            className="h-[18px] w-[18px] rounded-[4px] border-none text-primary focus:ring-primary focus:ring-2 focus:ring-offset-1 focus:outline-none accent-primary bg-primary/20 appearance-none defaultChecked:bg-primary cursor-pointer relative"
-            defaultChecked
-          />
-          {/* Custom Checkbox SVG Overlay if native is tricky; we'll rely on global ring or simple accent for now */}
-          <label htmlFor="remember" className="ml-3 block text-sm font-semibold text-dark cursor-pointer group-hover:text-primary transition-colors">
-            Remember Me
-          </label>
+          <Checkbox label="Accept terms" checked={true} />
+
         </div>
 
         <div className="text-sm">
@@ -63,11 +59,17 @@ export function LoginForm() {
         </div>
       </div>
 
+      {/* {error && (
+        <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg border border-red-200">
+          {error}
+        </div>
+      )} */}
+
       <button
         type="submit"
-        className="mt-6 w-full flex justify-center py-4 px-4 border border-transparent rounded-[12px] shadow-sm text-[15px] font-semibold text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary h-[54px] items-center transition-colors tracking-wide"
+        className="mt-6 w-full flex justify-center py-4 px-4 border border-transparent rounded-[12px] shadow-sm text-[15px] font-semibold text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary h-[54px] items-center transition-colors tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Login
+        {"Login"}
       </button>
     </form>
   )

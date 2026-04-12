@@ -266,9 +266,9 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
         <label
           htmlFor={inputId}
           className={[
-            "font-medium leading-none",
+            "font-normal leading-none",
             sz.label,
-            state !== "default" ? (st.label ?? "text-[#16151C]") : "text-[#16151C]",
+            state !== "default" ? (st.label ?? "text-[#7152F3]") : "text-[#7152F3]",
           ].join(" ")}
         >
           {label}
@@ -462,5 +462,6 @@ export function OtpInput({ length = 6, theme = "purple", onComplete, label }: { 
 }
  
 // ─── EXPORT ──────────────────────────────────────────────────────────────────
- 
+
+export { Input };
 export default Input;
