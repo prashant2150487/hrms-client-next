@@ -3,12 +3,12 @@
 
 export const endPoints={
     auth: {
-        login: "/login",
-        register: "/register",
-        logout: "/logout",
-        getProfile: "/profile",
-        refreshToken: "/refresh",
-        verifyEmail: "/verify-email"
+        login: "auth/login",
+        register: "auth/register",
+        logout: "auth/logout",
+        getProfile: "auth/profile",
+        refreshToken: "auth/refresh",
+        verifyEmail: "auth/verify-email"
     },
     
 

@@ -3,15 +3,34 @@
 import * as React from "react"
 import Input, { PasswordInput } from "@/components/ui/input"
 import { Checkbox } from "../ui/checkbox"
+import { login } from "@/api/auth/auth"
+import Button from "../ui/button"
 
 export function LoginForm() {
-  const [email, setEmail] = React.useState("robertallen@example.com")
-  const [password, setPassword] = React.useState("password123")
+  const [email, setEmail] = React.useState<string>("")
+  const [password, setPassword] = React.useState<string>("")
+  const [loading, setLoading] = React.useState<boolean>(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Login attempt:", { email, password })
+    if (!email || !password) {
+      return
+    }
+    try {
+      setLoading(true)
+      const res = await login({
+        email,
+        password
+      })
+
+    } catch (err) {
+      console.error("Login Error", err)
+    } finally {
+      setLoading(false)
+    }
   }
+  console.log(email, password)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 w-full mt-10 max-w-[420px]">
@@ -61,13 +80,11 @@ export function LoginForm() {
           {error}
         </div>
       )} */}
+      <Button fullWidth disabled={loading} size="lg" variant="primary">
+        Hi
+      </Button>
 
-      <button
-        type="submit"
-        className="mt-6 w-full flex justify-center py-4 px-4 border border-transparent rounded-[12px] shadow-sm text-[15px] font-semibold text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary h-[54px] items-center transition-colors tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {"Login"}
-      </button>
+      
     </form>
   )
 }
