@@ -6,12 +6,13 @@ import { Checkbox } from "../ui/checkbox"
 import { login } from "@/api/auth/auth"
 import Button from "../ui/button"
 import { AxiosError } from "axios"
+import toast from "react-hot-toast"
 
 export function LoginForm() {
   const [email, setEmail] = React.useState<string>("")
   const [password, setPassword] = React.useState<string>("")
   const [loading, setLoading] = React.useState<boolean>(false)
-  const [error,setError] = React.useState<string>("")
+  const [error, setError] = React.useState<string>("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,13 +26,17 @@ export function LoginForm() {
         email,
         password
       })
+      toast.success(res.data.message || "Login successfull")
 
     } catch (err) {
       console.error("Login Error", err)
       if (err instanceof AxiosError) {
         setError(err.response?.data?.message || "An error occurred during login.")
+        toast.error(err.response?.data.message || "An error occured during login.")
       } else {
+
         setError("An error occurred during login.")
+        toast.error("An error occured during login.")
       }
     } finally {
       setLoading(false)
@@ -91,7 +96,7 @@ export function LoginForm() {
         Hi
       </Button>
 
-      
+
     </form>
   )
 }
