@@ -88,7 +88,7 @@ export const Checkbox = ({
                     </svg>
                 )}
             </span>
-            {label && <span style={{ fontSize: s.text, fontWeight: 400, color:"#16151C" }}>{label}</span>}
+            {label && <span style={{ fontSize: s.text, fontWeight: 400, color: "#16151C" }}>{label}</span>}
         </label>
     );
 };
