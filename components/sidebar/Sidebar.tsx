@@ -14,15 +14,15 @@ import {
 
 const navigation = [
   { title: "Dashboard", href: "/home", icon: LayoutDashboard, active: true },
-  { title: "All Employees", href: "#", icon: Users },
-  { title: "All Departments", href: "#", icon: Building2 },
-  { title: "Attendance", href: "#", icon: CalendarDays },
-  { title: "Payroll", href: "#", icon: DollarSign },
-  { title: "Jobs", href: "#", icon: Briefcase },
-  { title: "Candidates", href: "#", icon: UserCheck },
-  { title: "Leaves", href: "#", icon: ClipboardList },
-  { title: "Holidays", href: "#", icon: CalendarCheck },
-  { title: "Settings", href: "#", icon: Settings },
+  { title: "All Employees", href: "/employees", icon: Users },
+  { title: "All Departments", href: "/departments", icon: Building2 },
+  { title: "Attendance", href: "/attendance", icon: CalendarDays },
+  { title: "Payroll", href: "/payroll", icon: DollarSign },
+  { title: "Jobs", href: "/jobs", icon: Briefcase },
+  { title: "Candidates", href: "/candidates", icon: UserCheck },
+  { title: "Leaves", href: "/leaves", icon: ClipboardList },
+  { title: "Holidays", href: "/holidays", icon: CalendarCheck },
+  { title: "Settings", href: "/settings", icon: Settings },
 ];
 
 export function Sidebar() {
@@ -45,16 +45,16 @@ export function Sidebar() {
             <Link
               key={item.title}
               href={item.href}
-              className={`group flex items-center gap-3 px-4 py-2 text-sm font-medium transition ${
+              className={`group flex items-center gap-3 px-4 py-2 text-sm transition font-poppins ${
                 item.active
-                  ? "bg-violet-50 text-violet-700 border-l-4 border-violent-600 text-violet-600"
-                  : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                  ? "bg-violet-50 border-l-4 border-[#7152F3] text-[#7152F3] font-extrabold"
+                  : "text-[#16151C] hover:bg-slate-100 hover:text-slate-900"
               }`}
             >
               <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 group-hover:bg-slate-200 group-hover:text-slate-900">
-                <Icon className="h-4 w-4 text-violet-600" />
+                <Icon className="h-4 w-4 text-[#7152F3]" />
               </span>
-              <span>{item.title}</span>
+              <span className="">{item.title}</span>
             </Link>
           );
         })}

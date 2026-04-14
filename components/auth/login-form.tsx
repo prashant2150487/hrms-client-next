@@ -5,20 +5,22 @@ import Input, { PasswordInput } from "@/components/ui/input"
 import { Checkbox } from "../ui/checkbox"
 import { login } from "@/api/auth/auth"
 import Button from "../ui/button"
+import { AxiosError } from "axios"
 
 export function LoginForm() {
   const [email, setEmail] = React.useState<string>("")
   const [password, setPassword] = React.useState<string>("")
   const [loading, setLoading] = React.useState<boolean>(false)
+  const [error,setError] = React.useState<string>("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Login attempt:", { email, password })
     if (!email || !password) {
       return
     }
     try {
       setLoading(true)
+      setError("")
       const res = await login({
         email,
         password
@@ -26,6 +28,11 @@ export function LoginForm() {
 
     } catch (err) {
       console.error("Login Error", err)
+      if (err instanceof AxiosError) {
+        setError(err.response?.data?.message || "An error occurred during login.")
+      } else {
+        setError("An error occurred during login.")
+      }
     } finally {
       setLoading(false)
     }
@@ -75,11 +82,11 @@ export function LoginForm() {
         </div>
       </div>
 
-      {/* {error && (
+      {error && (
         <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg border border-red-200">
           {error}
         </div>
-      )} */}
+      )}
       <Button fullWidth disabled={loading} size="lg" variant="primary">
         Hi
       </Button>
