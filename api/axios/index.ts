@@ -1,56 +1,71 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from "axios";
 
-// Create axios instance
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/`,
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
   },
+
+  // 🔥 CRITICAL for cookies
+  withCredentials: true,
 });
 
-// Request interceptor for adding auth token
+/**
+ * ❌ REMOVE token logic completely
+ * Cookies will be sent automatically
+ */
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Add auth token if available
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
     return config;
   },
-  (error: AxiosError) => {
-    return Promise.reject(error);
-  }
+  (error: AxiosError) => Promise.reject(error)
 );
 
-// Response interceptor for handling common errors
+/**
+ * ✅ Response Interceptor with Refresh Flow
+ */
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse) => {
-    return response;
-  },
-  (error: AxiosError) => {
-    const status = error.response?.status;
+  (response: AxiosResponse) => response,
 
-    if (status === 401) {
-      // Handle unauthorized access
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        // You can redirect to login page here
-        // window.location.href = '/login';
+  async (error: AxiosError) => {
+    const status = error.response?.status;
+    const originalRequest: any = error.config;
+
+    // 🔁 Handle expired access token
+    if (status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        // Call refresh endpoint (cookie will be sent automatically)
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${process.env.NEXT_PUBLIC_API_VERSION}/auth/refresh-token`,
+          {},
+          { withCredentials: true }
+        );
+
+        // Retry original request
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        // Refresh failed → logout user
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
+        return Promise.reject(refreshError);
       }
     }
 
     if (status === 403) {
-      // Handle forbidden access
-      console.error('Access forbidden');
+      console.error("Access forbidden");
     }
 
     if (status && status >= 500) {
-      // Handle server errors
-      console.error('Server error occurred');
+      console.error("Server error occurred");
     }
 
     return Promise.reject(error);

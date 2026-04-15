@@ -7,18 +7,19 @@ import { login } from "@/api/auth/auth"
 import Button from "../ui/button"
 import { AxiosError } from "axios"
 import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 export function LoginForm() {
   const [email, setEmail] = React.useState<string>("")
   const [password, setPassword] = React.useState<string>("")
   const [loading, setLoading] = React.useState<boolean>(false)
   const [error, setError] = React.useState<string>("")
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email || !password) {
-      return
-    }
+    if (!email || !password) return;
+
     try {
       setLoading(true)
       setError("")
@@ -27,6 +28,10 @@ export function LoginForm() {
         password
       })
       toast.success(res.data.message || "Login successfull")
+      if (res.data.success) {
+        
+        router.push("/dashboard")
+      }
 
     } catch (err) {
       console.error("Login Error", err)
@@ -93,7 +98,7 @@ export function LoginForm() {
         </div>
       )}
       <Button fullWidth disabled={loading} size="lg" variant="primary">
-        Hi
+        Login
       </Button>
 
 
