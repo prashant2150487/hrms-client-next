@@ -10,8 +10,8 @@ import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
 export function LoginForm() {
-  const [email, setEmail] = React.useState<string>("")
-  const [password, setPassword] = React.useState<string>("")
+  const [email, setEmail] = React.useState<string>("admin11@lapscore.com")
+  const [password, setPassword] = React.useState<string>("test11@123")
   const [loading, setLoading] = React.useState<boolean>(false)
   const [error, setError] = React.useState<string>("")
   const router = useRouter()

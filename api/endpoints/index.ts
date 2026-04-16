@@ -8,7 +8,8 @@ export const endPoints={
         logout: "auth/logout",
         getProfile: "auth/profile",
         refreshToken: "auth/refresh",
-        verifyEmail: "auth/verify-email"
+        verifyEmail: "auth/verify-email",
+        getMe: "auth/me"
     },
     
 

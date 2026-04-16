@@ -1,9 +1,12 @@
-import { LoginRequest, RegisterRequest, User } from '@/types/auth';
+import { LoginRequest, RegisterRequest, User, ApiResponse } from '@/types/auth';
 import axiosInstance from '../axios';
 import { endPoints } from '../endpoints';
 
 export const login = (credentials: LoginRequest) => {
   return axiosInstance.post(endPoints.auth.login, credentials);
+};
+export const getMe = () => {
+  return axiosInstance.get<ApiResponse<User>>(endPoints.auth.getMe);
 };
 
 export const register = (userData: RegisterRequest) => {

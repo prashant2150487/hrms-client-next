@@ -1,8 +1,47 @@
+export interface Permission {
+  id: number;
+  module: string;
+  action: string;
+  codename: string;
+  description: string;
+}
+
+export interface Role {
+  id: number;
+  tenant_id: string | null;
+  name: string;
+  label: string;
+  in_system: number;
+  created_at: string;
+  permissions: Permission[];
+}
+
 export interface User {
   id: string;
+  tenant_id: string;
+  role_id: number;
   email: string;
-  name: string;
-  role: string;
+  is_active: boolean;
+  is_email_varified: boolean;
+  mfa_enabled: boolean;
+  mfa_secret: string | null;
+  failed_attempts: number;
+  locked_until: string | null;
+  last_login: string | null;
+  last_login_ip: string | null;
+  avatar_url: string | null;
+  delete_at: string | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  role: Role;
+}
+
+export interface ApiResponse<T> {
+  statusCode: number;
+  data: T;
+  message: string;
+  success: boolean;
 }
 
 export interface LoginRequest {

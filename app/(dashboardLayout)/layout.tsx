@@ -1,15 +1,43 @@
+"use client";
+
 import type { Metadata } from "next";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Header } from "@/components/header/Header";
 import { Sidebar } from "@/components/sidebar/Sidebar";
-
-export const metadata: Metadata = {
-  title: "HRMS Dashboard",
-};
+import { getMe } from "@/api/auth/auth";
+import { setUser, setLoading } from "@/features/auth/authSlice";
+import { RootState } from "@/store";
 
 export default function DashboardLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
+  const dispatch = useDispatch();
+  const { user, isLoading } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      // Only fetch if user is not already loaded
+      if (user) return;
+
+      try {
+        dispatch(setLoading(true));
+        const response = await getMe();
+        
+        if (response.data.success && response.data.data) {
+          dispatch(setUser(response.data.data));
+        }
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Failed to fetch user data";
+        console.error("Error fetching user:", error);
+      } finally {
+        dispatch(setLoading(false));
+      }
+    };
+
+    fetchUserData();
+  }, [dispatch, user]);
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="flex min-h-screen">
