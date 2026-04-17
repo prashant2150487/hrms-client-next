@@ -22,15 +22,15 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard, active: true },
-  { title: "All Employees", href: "/employees", icon: Users ,active:false},
-  { title: "All Departments", href: "/departments", icon: Building2 ,active:false},
-  { title: "Attendance", href: "/attendance", icon: CalendarDays ,active:false},
-  { title: "Payroll", href: "/payroll", icon: DollarSign ,active:false},
-  { title: "Jobs", href: "/jobs", icon: Briefcase ,active:false},
-  { title: "Candidates", href: "/candidates", icon: UserCheck ,active:false},
-  { title: "Leaves", href: "/leaves", icon: ClipboardList ,active:false},
-  { title: "Holidays", href: "/holidays", icon: CalendarCheck ,active:false},
-  { title: "Settings", href: "/settings", icon: Settings ,active:false},
+  { title: "All Employees", href: "/employees", icon: Users, active: false },
+  { title: "All Departments", href: "/departments", icon: Building2, active: false },
+  { title: "Attendance", href: "/attendance", icon: CalendarDays, active: false },
+  { title: "Payroll", href: "/payroll", icon: DollarSign, active: false },
+  { title: "Jobs", href: "/jobs", icon: Briefcase, active: false },
+  { title: "Candidates", href: "/candidates", icon: UserCheck, active: false },
+  { title: "Leaves", href: "/leaves", icon: ClipboardList, active: false },
+  { title: "Holidays", href: "/holidays", icon: CalendarCheck, active: false },
+  { title: "Settings", href: "/settings", icon: Settings, active: false },
 ];
 
 export function Sidebar() {
@@ -49,14 +49,13 @@ export function Sidebar() {
 
   }
   return (
-    <aside className="hidden xl:flex h-screen w-80 flex-col border-r border-slate-200 bg-white px-6 py-8 sticky top-0">
+    <aside className="hidden xl:flex h-screen w-80 flex-col px-6 py-8 sticky top-0 bg-[#F9F9F9]">
       <div className="mb-10 flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-600 text-white text-xl font-black">
           ∞
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.28em] text-slate-500">HRMS</p>
-          <p className="text-lg font-semibold text-slate-900">People tools</p>
+          <p className="text-2xl font-semibold text-slate-900">HRMS</p>
         </div>
       </div>
 
