@@ -1,37 +1,37 @@
 "use client";
 
 import type { Metadata } from "next";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Header } from "@/components/header/Header";
-import { Sidebar } from "@/components/sidebar/Sidebar";
+import { Header } from "@/components/header";
+import { Sidebar } from "@/components/sidebar";
 import { getMe } from "@/api/auth/auth";
-import { setUser, setLoading } from "@/features/auth/authSlice";
+import { setAuthData } from "@/features/auth/authSlice";
 import { RootState } from "@/store";
 
 export default function DashboardLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   const dispatch = useDispatch();
-  const { user, isLoading } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = useState<Boolean>(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
       // Only fetch if user is not already loaded
       if (user) return;
-
+      setLoading(true)
       try {
-        dispatch(setLoading(true));
         const response = await getMe();
-        
+
         if (response.data.success && response.data.data) {
-          dispatch(setUser(response.data.data));
+          dispatch(setAuthData(response.data.data));
         }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Failed to fetch user data";
         console.error("Error fetching user:", error);
       } finally {
-        dispatch(setLoading(false));
+        setLoading(false)
       }
     };
 

@@ -1,17 +1,22 @@
+import { RootState } from "@/store";
 import {
   Search,
   Bell,
   ChevronDown,
   UserCircle,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export function Header() {
+  const { employee } = useSelector((state: RootState) => state.auth);
+  const userName = employee ? `${employee.first_name}${employee.last_name ? ` ${employee.last_name}` : ""}` : "Guest";
+
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4 px-6 py-4">
+      <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4 px-4 py-4">
         <div className="space-y-1">
-          <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-500">All Employees</p>
-          <h1 className="text-3xl font-semibold text-slate-900">All Employee Information</h1>
+          <p className="text-lg font-bold uppercase tracking-[0.24em] text-black">hi {employee?.first_name ?? "Guest"}</p>
+          <h1 className="text-md font-semibold text-gray-500">Good Morning</h1>
         </div>
 
         <div className="flex flex-1 min-w-[280px] max-w-2xl items-center gap-3">
@@ -30,7 +35,7 @@ export function Header() {
 
           <button className="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50">
             <UserCircle className="h-5 w-5 text-slate-500" />
-            <span className="hidden sm:inline">Robert Allen</span>
+            <span className="hidden sm:inline">{userName}</span>
             <ChevronDown className="h-4 w-4 text-slate-500" />
           </button>
         </div>

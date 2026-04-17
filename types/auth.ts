@@ -37,6 +37,62 @@ export interface User {
   role: Role;
 }
 
+export interface Employee {
+  id: string;
+  tenant_id: string;
+  user_id: string;
+  emp_code: string;
+  first_name: string;
+  last_name: string;
+  middle_name: string | null;
+  date_of_birth: string | null;
+  gender: string | null;
+  marital_status: string | null;
+  nationality: string | null;
+  national_id: string | null;
+  passport_number: string | null;
+  personal_email: string | null;
+  phone_primary: string | null;
+  phone_emergency: string | null;
+  emergency_contact_name: string | null;
+  emergency_contact_rel: string | null;
+  blood_group: string | null;
+  address_line1: string | null;
+  address_line2: string | null;
+  city: string | null;
+  state: string | null;
+  postal_code: string | null;
+  country_code: string | null;
+  department_id: string | null;
+  designation_id: string | null;
+  work_location_id: string | null;
+  manager_id: string | null;
+  employment_type: string;
+  work_mode: string;
+  date_of_joining: string;
+  probation_end_date: string | null;
+  date_of_leaving: string | null;
+  notice_period_days: number | null;
+  status: string;
+  exit_reason: string | null;
+  exit_notes: string | null;
+  bank_account_no: string | null;
+  bank_ifsc: string | null;
+  bank_name: string | null;
+  pan_number: string | null;
+  uan_number: string | null;
+  deleted_at: string | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+export interface GetMeData {
+  userDetails: User;
+  employeeDetails: Employee;
+  permissions: string[];
+}
+
 export interface ApiResponse<T> {
   statusCode: number;
   data: T;
