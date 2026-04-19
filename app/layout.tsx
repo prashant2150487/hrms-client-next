@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Poppins } from "next/font/google";
 import StoreProvider from "@/store/storeProvider";
+import { Providers } from "./providers";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
@@ -31,7 +32,9 @@ export default function RootLayout({
         className={`${poppins.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster />
-        <StoreProvider>{children}</StoreProvider>
+        <Providers>
+          <StoreProvider>{children}</StoreProvider>
+        </Providers>
       </body>
     </html>
   );
