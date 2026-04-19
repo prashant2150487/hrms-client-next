@@ -1,7 +1,7 @@
 
 
 
-export const endPoints={
+export const endPoints = {
     auth: {
         login: "auth/login",
         register: "auth/register",
@@ -11,7 +11,10 @@ export const endPoints={
         verifyEmail: "auth/verify-email",
         getMe: "auth/me"
     },
-    
+    employees: {
+        getAll: "employees"
+    }
+
 
 
 }

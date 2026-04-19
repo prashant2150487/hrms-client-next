@@ -66,12 +66,12 @@ export function Sidebar() {
             <div
               key={item.title}
               onClick={() => handleNevigate(item.href, index)}
-              className={`group flex items-center gap-3 px-4 py-2 text-sm transition font-poppins ${item.active
+              className={`group flex items-center px-4 py-2 text-sm transition font-poppins ${item.active
                 ? "bg-violet-50 border-l-4 border-[#7152F3] text-[#7152F3] font-extrabold"
                 : "text-[#16151C] hover:bg-slate-100 hover:text-slate-900"
                 }`}
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 group-hover:bg-slate-200 group-hover:text-slate-900">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl  text-slate-700 group-hover:text-slate-900">
                 <Icon className="h-4 w-4 text-[#7152F3]" />
               </span>
               <span className="">{item.title}</span>

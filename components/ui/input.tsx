@@ -115,7 +115,7 @@ const SHAPES = {
 
 const STATE_STYLES = {
   default: {
-    input: "border-[#7152F3] bg-white text-[#16151C] placeholder:text-gray-400",
+    input: "border-gray-500 bg-white text-[#16151C] placeholder:text-gray-400",
     label: "text-[#16151C]",
     message: "",
     icon: "",

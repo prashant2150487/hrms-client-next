@@ -44,7 +44,7 @@ export interface ButtonProps
 const base = [
   "inline-flex items-center justify-center gap-2",
   "font-semibold tracking-wide select-none whitespace-nowrap",
-  "border-none outline-none",
+  "outline-none",
   "transition-all duration-150 ease-in-out",
   "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary",
   "disabled:opacity-45 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none",
@@ -61,7 +61,7 @@ const variants: Record<ButtonVariant, string> = {
     "bg-secondary text-white shadow-[0_1px_2px_rgba(168,209,34,.18),0_2px_8px_rgba(168,209,34,.14)] " +
     "hover:bg-secondary hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(168,209,34,.28)]",
   outline:
-    "bg-transparent text-primary border border-primary " +
+    "bg-transparent text-primary border border-gray-500 " +
     "hover:bg-primary/8 hover:-translate-y-px",
   ghost:
     "bg-transparent text-primary " +
