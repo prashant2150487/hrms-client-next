@@ -5,7 +5,7 @@ import { getAllEmployees } from '@/api/employees';
 import EmployeeTable from '@/components/employees/employeeTable';
 
 export default function Employees() {
-  const { data: response, isLoading, isError } = useQuery({
+  const { data: response, isLoading, isError, refetch: refetchEmployees } = useQuery({
     queryKey: ['employees'],
     queryFn: () => getAllEmployees()
   });
@@ -20,7 +20,7 @@ export default function Employees() {
 
   return (
     <div className='border rounded-md p-4'>
-      <EmployeeTable employeesData={response.data.employees} />
+      <EmployeeTable employeesData={response.data.employees} refetchEmployees={refetchEmployees} />
     </div>
   );
 }

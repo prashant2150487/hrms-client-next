@@ -1,3 +1,4 @@
+import { create } from "domain";
 
 
 
@@ -12,7 +13,8 @@ export const endPoints = {
         getMe: "auth/me"
     },
     employees: {
-        getAll: "employees"
+        getAll: "employees",
+        create: "employees"
     }
 
 

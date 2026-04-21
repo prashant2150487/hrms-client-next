@@ -13,15 +13,18 @@ import 'ag-grid-community/styles/ag-theme-quartz.css'
 import './table.css'
 import { ModuleRegistry, ClientSideRowModelModule, ValidationModule, TextFilterModule } from 'ag-grid-community'
 import type { ColDef } from 'ag-grid-community'
+import CreateEmployeeModal from '../createEmployeeModal'
 
 ModuleRegistry.registerModules([ClientSideRowModelModule, ValidationModule, TextFilterModule]);
 
 interface EmployeeTableProps {
     employeesData?: Employee[]
+    refetchEmployees: () => void
 }
 
-const EmployeeTable = ({ employeesData = [] }: EmployeeTableProps) => {
+const EmployeeTable = ({ employeesData = [], refetchEmployees }: EmployeeTableProps) => {
     const [searchQuery, setSearchQuery] = useState<string>("")
+    const [showModal, setShowModal] = useState<boolean>(false)
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value)
@@ -129,7 +132,7 @@ const EmployeeTable = ({ employeesData = [] }: EmployeeTableProps) => {
                 </div>
                 <div className='flex gap-4'>
                     <Button variant='outline'>Filter</Button>
-                    <Button>Add new Employee</Button>
+                    <Button onClick={() => setShowModal(true)}>Add new Employee</Button>
                 </div>
             </div>
 
@@ -150,6 +153,7 @@ const EmployeeTable = ({ employeesData = [] }: EmployeeTableProps) => {
             <div className="mt-2 text-sm text-slate-500">
                 Showing {filteredEmployees.length} of {employeesData.length} records.
             </div>
+            {showModal && <CreateEmployeeModal onClose={() => setShowModal(false)} refetchEmployees={refetchEmployees} />}
         </div>
     )
 }
