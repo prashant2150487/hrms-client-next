@@ -35,16 +35,19 @@ const CreateEmployeeModal = ({ onClose, refetchEmployees }: CreateEmployeeModalP
         e.preventDefault();
         try {
             const res = await createEmployee(formData);
-            if(res.data.success){
-                toast.success("Employee created successfully")
+            if (res.data.success) {
+                toast.success(res.data.message)
+                refetchEmployees();
+                if (onClose) onClose();
+            } else {
+                toast.error(res.data.message || "Failed to create employee")
             }
-            refetchEmployees();
-            if (onClose) onClose();
 
 
 
 
-        } catch (err){
+
+        } catch (err) {
             toast.error("Failed to create employee")
         }
     };

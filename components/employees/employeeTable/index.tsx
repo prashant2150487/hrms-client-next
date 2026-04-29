@@ -1,8 +1,8 @@
 "use client"
-import React, { useState, useMemo, type ChangeEvent } from 'react'
+import React, { useState, useMemo, type ChangeEvent, useEffect } from 'react'
 import Button from '@/components/ui/button'
 import Input from '@/components/ui/input'
-import { Search, Eye, Pencil, Trash2 } from 'lucide-react'
+import { Search, Eye, Pencil, Trash2, SearchCheck } from 'lucide-react'
 import type { Employee } from '@/api/employees/typing'
 import Avatar from '@/components/ui/avatar'
 import Chip from '@/components/ui/chip'
@@ -14,26 +14,28 @@ import './table.css'
 import { ModuleRegistry, ClientSideRowModelModule, ValidationModule, TextFilterModule } from 'ag-grid-community'
 import type { ColDef } from 'ag-grid-community'
 import CreateEmployeeModal from '../createEmployeeModal'
+import DeleteEmployeeModal from './deleteEmployeeModal'
 
 ModuleRegistry.registerModules([ClientSideRowModelModule, ValidationModule, TextFilterModule]);
 
 interface EmployeeTableProps {
     employeesData?: Employee[]
     refetchEmployees: () => void
+    setSearch: (search: string) => void
+    search: string
 }
 
-const EmployeeTable = ({ employeesData = [], refetchEmployees }: EmployeeTableProps) => {
-    const [searchQuery, setSearchQuery] = useState<string>("")
+const EmployeeTable = ({ employeesData = [], refetchEmployees ,setSearch , search}: EmployeeTableProps) => {
     const [showModal, setShowModal] = useState<boolean>(false)
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+    const [employeeToDelete, setEmployeeToDelete] = useState<string | null>(null)
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value)
-    }
 
-    const filteredEmployees = employeesData.filter((employee) => {
-        const fullName = `${employee.first_name} ${employee.last_name}`.toLowerCase()
-        return fullName.includes(searchQuery.toLowerCase())
-    })
+
+        setSearch(e.target.value)
+    }
+    
 
     const columnDefs = useMemo<ColDef<Employee>[]>(() => [
         {
@@ -93,7 +95,7 @@ const EmployeeTable = ({ employeesData = [], refetchEmployees }: EmployeeTablePr
         },
         {
             headerName: 'Action',
-            cellRenderer: () => {
+            cellRenderer: (params: any) => {
                 return (
                     <div className="flex gap-4 items-center h-full">
                         <button className="text-slate-500 hover:text-slate-800 transition">
@@ -102,7 +104,13 @@ const EmployeeTable = ({ employeesData = [], refetchEmployees }: EmployeeTablePr
                         <button className="text-slate-500 hover:text-slate-800 transition">
                             <Pencil className="w-[18px] h-[18px]" />
                         </button>
-                        <button className="text-slate-500 hover:text-red-500 transition">
+                        <button
+                            className="text-slate-500 hover:text-red-500 transition"
+                            onClick={() => {
+                                setEmployeeToDelete(params.data?.id);
+                                setShowDeleteModal(true);
+                            }}
+                        >
                             <Trash2 className="w-[18px] h-[18px]" />
                         </button>
                     </div>
@@ -126,7 +134,7 @@ const EmployeeTable = ({ employeesData = [], refetchEmployees }: EmployeeTablePr
                 <div className='w-full max-w-sm'>
                     <Input iconLeft={<Search className="w-4 h-4" />}
                         type='text'
-                        value={searchQuery}
+                        value={search}
                         onChange={handleSearchChange}
                         placeholder="Search employees..." />
                 </div>
@@ -138,7 +146,7 @@ const EmployeeTable = ({ employeesData = [], refetchEmployees }: EmployeeTablePr
 
             <div className="ag-theme-quartz w-full [&_.ag-root-wrapper]:!border-none" style={{ height: '700px' }}>
                 <AgGridReact
-                    rowData={filteredEmployees}
+                    rowData={employeesData}
                     columnDefs={columnDefs}
                     defaultColDef={defaultColDef}
                     rowHeight={76}
@@ -151,9 +159,23 @@ const EmployeeTable = ({ employeesData = [], refetchEmployees }: EmployeeTablePr
             </div>
 
             <div className="mt-2 text-sm text-slate-500">
-                Showing {filteredEmployees.length} of {employeesData.length} records.
+                Showing {employeesData.length} of {employeesData.length} records.
             </div>
-            {showModal && <CreateEmployeeModal onClose={() => setShowModal(false)} refetchEmployees={refetchEmployees} />}
+            {showModal &&
+                <CreateEmployeeModal
+                    onClose={() => setShowModal(false)}
+                    refetchEmployees={refetchEmployees}
+                />}
+            {showDeleteModal && (
+                <DeleteEmployeeModal
+                    onClose={() => {
+                        setShowDeleteModal(false);
+                        setEmployeeToDelete(null);
+                    }}
+                    employeeId={employeeToDelete}
+                    refetchEmployees={refetchEmployees}
+                />
+            )}
         </div>
     )
 }

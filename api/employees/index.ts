@@ -10,6 +10,7 @@ import { GetAllEmployeesResponse } from "./typing"
 export interface GetAllEmployeesParams {
     page?: number
     limit?: number
+    search?: string
     [key: string]: unknown
 }
 
@@ -32,7 +33,11 @@ export const getAllEmployees = async (
     })
     return res.data
 }
-export const createEmployee = async (employeeData: CreateEmployee)=>{
-    const res=await axiosInstance.post(endPoints.employees.create,employeeData)
+export const createEmployee = async (employeeData: CreateEmployee) => {
+    const res = await axiosInstance.post(endPoints.employees.create, employeeData)
     return res;
+}
+export const deleteEmployee = async (employeeId: string, payload: { exit_reason: string, exit_notes: string }) => {
+    const res = await axiosInstance.patch(`${endPoints.employees.getAll}/${employeeId}`, payload)
+    return res.data;
 }   
