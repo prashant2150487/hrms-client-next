@@ -1,4 +1,14 @@
-import { useState, useRef, forwardRef, ReactNode, ChangeEvent, KeyboardEvent, ClipboardEvent, useId } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  useState,
+  useRef,
+  forwardRef,
+  ReactNode,
+  ChangeEvent,
+  KeyboardEvent,
+  ClipboardEvent,
+  useId,
+} from "react";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 type InputSize = "sm" | "md" | "lg" | "xl";
@@ -7,7 +17,10 @@ type InputTheme = "purple" | "teal" | "blue" | "coral" | "rose";
 type InputState = "default" | "error" | "success" | "warning";
 type InputElement = "input" | "textarea" | "select";
 
-interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+interface InputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> {
   label?: string;
   hint?: string;
   message?: string;
@@ -30,41 +43,87 @@ interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, '
 const IconSearch = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 16 16" fill="none">
     <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <path
+      d="M10.5 10.5L14 14"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const IconLock = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 16 16" fill="none">
-    <rect x="3" y="7" width="10" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <rect
+      x="3"
+      y="7"
+      width="10"
+      height="8"
+      rx="1.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M5 7V5a3 3 0 016 0v2"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const IconEye = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 16 16" fill="none">
-    <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" />
+    <path
+      d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
     <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.5" />
   </svg>
 );
 
 const IconEyeOff = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 16 16" fill="none">
-    <path d="M2 2l12 12M6.5 6.6A2 2 0 0010 9.5M4.2 4.3C2.5 5.4 1 8 1 8s2.5 5 7 5c1.4 0 2.7-.4 3.8-1M7 3.1C7.3 3 7.7 3 8 3c4.5 0 7 5 7 5s-.8 1.7-2.2 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <path
+      d="M2 2l12 12M6.5 6.6A2 2 0 0010 9.5M4.2 4.3C2.5 5.4 1 8 1 8s2.5 5 7 5c1.4 0 2.7-.4 3.8-1M7 3.1C7.3 3 7.7 3 8 3c4.5 0 7 5 7 5s-.8 1.7-2.2 3"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
-const IconCircleCheck = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+const IconCircleCheck = ({
+  className = "w-3.5 h-3.5",
+}: {
+  className?: string;
+}) => (
   <svg className={className} viewBox="0 0 16 16" fill="none">
     <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M5 8l2 2 4-4"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
-const IconCircleAlert = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+const IconCircleAlert = ({
+  className = "w-3.5 h-3.5",
+}: {
+  className?: string;
+}) => (
   <svg className={className} viewBox="0 0 16 16" fill="none">
     <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M8 5v4M8 11v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <path
+      d="M8 5v4M8 11v.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
@@ -100,10 +159,34 @@ const THEMES = {
 };
 
 const SIZES = {
-  sm: { input: "h-8  text-xs  px-3", label: "text-xs", icon: "w-3.5 h-3.5", iconPad: "pl-8", iconRight: "pr-8" },
-  md: { input: "h-10 text-sm  px-3.5", label: "text-xs", icon: "w-4 h-4", iconPad: "pl-9", iconRight: "pr-9" },
-  lg: { input: "h-12 text-base px-4", label: "text-sm", icon: "w-4 h-4", iconPad: "pl-10", iconRight: "pr-10" },
-  xl: { input: "h-14 text-base px-4", label: "text-sm", icon: "w-5 h-5", iconPad: "pl-11", iconRight: "pr-11" },
+  sm: {
+    input: "h-8  text-xs  px-3",
+    label: "text-xs",
+    icon: "w-3.5 h-3.5",
+    iconPad: "pl-8",
+    iconRight: "pr-8",
+  },
+  md: {
+    input: "h-10 text-sm  px-3.5",
+    label: "text-xs",
+    icon: "w-4 h-4",
+    iconPad: "pl-9",
+    iconRight: "pr-9",
+  },
+  lg: {
+    input: "h-12 text-base px-4",
+    label: "text-sm",
+    icon: "w-4 h-4",
+    iconPad: "pl-10",
+    iconRight: "pr-10",
+  },
+  xl: {
+    input: "h-14 text-base px-4",
+    label: "text-sm",
+    icon: "w-5 h-5",
+    iconPad: "pl-11",
+    iconRight: "pr-11",
+  },
 };
 
 const SHAPES = {
@@ -121,19 +204,22 @@ const STATE_STYLES = {
     icon: "",
   },
   error: {
-    input: "border-red-400 bg-red-50/30 text-gray-900 focus:border-red-500 focus:ring-red-500/15",
+    input:
+      "border-red-400 bg-red-50/30 text-gray-900 focus:border-red-500 focus:ring-red-500/15",
     label: "text-red-500",
     message: "text-red-500",
     icon: <IconCircleAlert className="w-3.5 h-3.5 shrink-0" />,
   },
   success: {
-    input: "border-emerald-400 bg-emerald-50/30 text-gray-900 focus:border-emerald-500 focus:ring-emerald-500/15",
+    input:
+      "border-emerald-400 bg-emerald-50/30 text-gray-900 focus:border-emerald-500 focus:ring-emerald-500/15",
     label: "text-emerald-600",
     message: "text-emerald-600",
     icon: <IconCircleCheck className="w-3.5 h-3.5 shrink-0" />,
   },
   warning: {
-    input: "border-amber-400 bg-amber-50/30 text-gray-900 focus:border-amber-500 focus:ring-amber-500/15",
+    input:
+      "border-amber-400 bg-amber-50/30 text-gray-900 focus:border-amber-500 focus:ring-amber-500/15",
     label: "text-amber-600",
     message: "text-amber-600",
     icon: <IconCircleAlert className="w-3.5 h-3.5 shrink-0" />,
@@ -168,7 +254,10 @@ const STATE_STYLES = {
  *  inputClass   string   — extra classes on input element
  *  ...rest      passed directly to the input/textarea/select
  */
-const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, InputProps>(function Input(
+const Input = forwardRef<
+  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+  InputProps
+>(function Input(
   {
     label,
     hint,
@@ -216,15 +305,20 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
     "w-full border outline-none transition-all duration-150",
     "focus:ring-4 disabled:opacity-50 disabled:cursor-not-allowed",
     "read-only:bg-gray-50 read-only:cursor-default",
-    sz.input, sh,
+    sz.input,
+    sh,
     state === "default" ? [st.input, th.focus].join(" ") : st.input,
     iconLeft ? sz.iconPad : "",
     iconRight ? sz.iconRight : "",
     floatLabel ? "placeholder-transparent" : "",
     Tag === "textarea" ? "resize-y min-h-[80px] py-2.5" : "",
-    Tag === "select" ? "appearance-none cursor-pointer pr-9 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgMTIgOCI+PHBhdGggZD0iTTEgMWw1IDUgNS01IiBzdHJva2U9IiM5Y2EzYWYiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=')] bg-no-repeat bg-[right_12px_center]" : "",
+    Tag === "select"
+      ? "appearance-none cursor-pointer pr-9 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgMTIgOCI+PHBhdGggZD0iTTEgMWw1IDUgNS01IiBzdHJva2U9IiM5Y2EzYWYiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=')] bg-no-repeat bg-[right_12px_center]"
+      : "",
     inputClass,
-  ].filter(Boolean).join(" ");
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   // ── floating label classes
   const floatLabelCls = [
@@ -233,10 +327,13 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
     "peer-focus:top-0 peer-focus:text-xs peer-focus:-translate-y-1/2",
     "peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:-translate-y-1/2",
     state === "default" ? th.label : (st.label ?? ""),
-    "peer-not-placeholder-shown:" + (state === "default" ? th.labelActive : (st.label ?? "")),
+    "peer-not-placeholder-shown:" +
+      (state === "default" ? th.labelActive : (st.label ?? "")),
   ].join(" ");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     if (maxLength) setCharCount((e.target as HTMLInputElement).value.length);
     onChange?.(e as any);
   };
@@ -262,7 +359,13 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
   ) as any;
 
   return (
-    <div className={["flex flex-col gap-1", disabled ? "opacity-60" : "", className].join(" ")}>
+    <div
+      className={[
+        "flex flex-col gap-1",
+        disabled ? "opacity-60" : "",
+        className,
+      ].join(" ")}
+    >
       {/* Static label */}
       {label && !floatLabel && (
         <label
@@ -270,7 +373,9 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
           className={[
             "font-normal leading-none",
             sz.label,
-            state !== "default" ? (st.label ?? "text-[#7152F3]") : "text-[#7152F3]",
+            state !== "default"
+              ? (st.label ?? "text-[#7152F3]")
+              : "text-[#7152F3]",
           ].join(" ")}
         >
           {label}
@@ -282,11 +387,16 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
       <div className="relative flex items-stretch">
         {/* Prefix */}
         {prefix && (
-          <span className={[
-            "flex items-center px-3 border border-r-0 border-gray-200 bg-gray-50 text-gray-500 text-sm shrink-0",
-            shape === "pill" ? "rounded-l-full" :
-              shape === "sharp" ? "rounded-l" : "rounded-l-lg",
-          ].join(" ")}>
+          <span
+            className={[
+              "flex items-center px-3 border border-r-0 border-gray-200 bg-gray-50 text-gray-500 text-sm shrink-0",
+              shape === "pill"
+                ? "rounded-l-full"
+                : shape === "sharp"
+                  ? "rounded-l"
+                  : "rounded-l-lg",
+            ].join(" ")}
+          >
             {prefix}
           </span>
         )}
@@ -318,11 +428,16 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
 
         {/* Suffix */}
         {suffix && (
-          <span className={[
-            "flex items-center px-3 border border-l-0 border-gray-200 bg-gray-50 text-gray-500 text-sm shrink-0",
-            shape === "pill" ? "rounded-r-full" :
-              shape === "sharp" ? "rounded-r" : "rounded-r-lg",
-          ].join(" ")}>
+          <span
+            className={[
+              "flex items-center px-3 border border-l-0 border-gray-200 bg-gray-50 text-gray-500 text-sm shrink-0",
+              shape === "pill"
+                ? "rounded-r-full"
+                : shape === "sharp"
+                  ? "rounded-r"
+                  : "rounded-r-lg",
+            ].join(" ")}
+          >
             {suffix}
           </span>
         )}
@@ -333,23 +448,27 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
         <div className="flex flex-col gap-0.5">
           {/* Message (error / success / warning) */}
           {message && (
-            <p className={["flex items-center gap-1 text-xs", st.message].join(" ")}>
+            <p
+              className={["flex items-center gap-1 text-xs", st.message].join(
+                " "
+              )}
+            >
               {st.icon}
               {message}
             </p>
           )}
           {/* Hint */}
-          {hint && !message && (
-            <p className="text-xs text-gray-400">{hint}</p>
-          )}
+          {hint && !message && <p className="text-xs text-gray-400">{hint}</p>}
         </div>
 
         {/* Character counter */}
         {maxLength && (
-          <p className={[
-            "text-xs tabular-nums shrink-0",
-            charCount > maxLength * 0.9 ? "text-red-500" : "text-gray-400",
-          ].join(" ")}>
+          <p
+            className={[
+              "text-xs tabular-nums shrink-0",
+              charCount > maxLength * 0.9 ? "text-red-500" : "text-gray-400",
+            ].join(" ")}
+          >
             {charCount}/{maxLength}
           </p>
         )}
@@ -360,7 +479,11 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElem
 
 // ─── PASSWORD INPUT ──────────────────────────────────────────────────────────
 
-export function PasswordInput({ theme = "purple", size = "md", ...props }: Omit<InputProps, 'type'>) {
+export function PasswordInput({
+  theme = "purple",
+  size = "md",
+  ...props
+}: Omit<InputProps, "type">) {
   const [show, setShow] = useState(false);
   return (
     <Input
@@ -386,7 +509,12 @@ export function PasswordInput({ theme = "purple", size = "md", ...props }: Omit<
 
 // ─── SEARCH INPUT ────────────────────────────────────────────────────────────
 
-export function SearchInput({ kbd, theme = "purple", size = "md", ...props }: Omit<InputProps, 'type'> & { kbd?: string }) {
+export function SearchInput({
+  kbd,
+  theme = "purple",
+  size = "md",
+  ...props
+}: Omit<InputProps, "type"> & { kbd?: string }) {
   return (
     <Input
       {...props}
@@ -408,13 +536,24 @@ export function SearchInput({ kbd, theme = "purple", size = "md", ...props }: Om
 
 // ─── OTP INPUT ───────────────────────────────────────────────────────────────
 
-export function OtpInput({ length = 6, theme = "purple", onComplete, label }: { length?: number; theme?: InputTheme; onComplete?: (code: string) => void; label?: string }) {
+export function OtpInput({
+  length = 6,
+  theme = "purple",
+  onComplete,
+  label,
+}: {
+  length?: number;
+  theme?: InputTheme;
+  onComplete?: (code: string) => void;
+  label?: string;
+}) {
   const [values, setValues] = useState(Array(length).fill(""));
-  const refs = Array.from({ length }, () => useRef<HTMLInputElement>(null));
+  const refsContainer = useRef<(HTMLInputElement | null)[]>([]);
   const th = THEMES[theme] ?? THEMES.purple;
 
   const handleKey = (i: number, e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace" && !values[i] && i > 0) refs[i - 1].current?.focus();
+    if (e.key === "Backspace" && !values[i] && i > 0)
+      refsContainer.current[i - 1]?.focus();
   };
 
   const handleChange = (i: number, e: ChangeEvent<HTMLInputElement>) => {
@@ -422,27 +561,37 @@ export function OtpInput({ length = 6, theme = "purple", onComplete, label }: { 
     const next = [...values];
     next[i] = v;
     setValues(next);
-    if (v && i < length - 1) refs[i + 1].current?.focus();
+    if (v && i < length - 1) refsContainer.current[i + 1]?.focus();
     if (next.every(Boolean)) onComplete?.(next.join(""));
   };
 
   const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, length).split("");
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, length)
+      .split("");
     const next = [...values];
-    pasted.forEach((c: string, i: number) => { next[i] = c; });
+    pasted.forEach((c: string, idx: number) => {
+      next[idx] = c;
+    });
     setValues(next);
-    refs[Math.min(pasted.length, length - 1)].current?.focus();
+    refsContainer.current[Math.min(pasted.length, length - 1)]?.focus();
     e.preventDefault();
   };
 
   return (
     <div className="flex flex-col gap-2">
-      {label && <span className="text-xs font-medium text-gray-600">{label}</span>}
+      {label && (
+        <span className="text-xs font-medium text-gray-600">{label}</span>
+      )}
       <div className="flex gap-2">
         {values.map((v, i) => (
           <input
             key={i}
-            ref={refs[i]}
+            ref={(el) => {
+              refsContainer.current[i] = el;
+            }}
             value={v}
             maxLength={1}
             inputMode="numeric"

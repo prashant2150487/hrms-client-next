@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
@@ -23,7 +23,8 @@ export default function DashboardLayout({
           dispatch(setAuthData(response.data.data));
         }
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : "Failed to fetch user data";
+        const errorMessage =
+          error instanceof Error ? error.message : "Failed to fetch user data";
         console.error("Error fetching user:", errorMessage);
       }
     };
@@ -38,9 +39,7 @@ export default function DashboardLayout({
 
         <div className="flex min-h-screen flex-1 flex-col">
           <Header />
-          <main className="flex-1 px-6 py-6 lg:px-8">
-            {children}
-          </main>
+          <main className="flex-1 px-6 py-6 lg:px-8">{children}</main>
         </div>
       </div>
     </div>

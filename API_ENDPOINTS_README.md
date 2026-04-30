@@ -22,28 +22,28 @@ api/
 
 ```typescript
 // Import specific endpoints
-import { AuthEndpoints, UserEndpoints } from '@/api';
+import { AuthEndpoints, UserEndpoints } from "@/api";
 
 // Or import everything
-import * as API from '@/api';
+import * as API from "@/api";
 ```
 
 ### Authentication
 
 ```typescript
-import { AuthEndpoints } from '@/api';
+import { AuthEndpoints } from "@/api";
 
 // Login
 const response = await AuthEndpoints.login({
-  email: 'user@example.com',
-  password: 'password123'
+  email: "user@example.com",
+  password: "password123",
 });
 
 // Register
 const response = await AuthEndpoints.register({
-  name: 'John Doe',
-  email: 'john@example.com',
-  password: 'password123'
+  name: "John Doe",
+  email: "john@example.com",
+  password: "password123",
 });
 
 // Get profile
@@ -56,87 +56,87 @@ await AuthEndpoints.logout();
 ### User Management
 
 ```typescript
-import { UserEndpoints } from '@/api';
+import { UserEndpoints } from "@/api";
 
 // Get all users
 const { users, total } = await UserEndpoints.getUsers({
   page: 1,
   limit: 10,
-  search: 'john'
+  search: "john",
 });
 
 // Create user
 const newUser = await UserEndpoints.createUser({
-  email: 'newuser@example.com',
-  name: 'New User',
-  role: 'employee'
+  email: "newuser@example.com",
+  name: "New User",
+  role: "employee",
 });
 
 // Update user
-const updatedUser = await UserEndpoints.updateUser('user-id', {
-  role: 'manager'
+const updatedUser = await UserEndpoints.updateUser("user-id", {
+  role: "manager",
 });
 ```
 
 ### Employee Management
 
 ```typescript
-import { EmployeeEndpoints } from '@/api';
+import { EmployeeEndpoints } from "@/api";
 
 // Get employees
 const { employees } = await EmployeeEndpoints.getEmployees({
-  department: 'engineering',
-  status: 'active'
+  department: "engineering",
+  status: "active",
 });
 
 // Create employee
 const employee = await EmployeeEndpoints.createEmployee({
-  userId: 'user-id',
-  employeeId: 'EMP001',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'john@company.com',
-  department: 'engineering',
-  position: 'Developer',
-  hireDate: '2024-01-01'
+  userId: "user-id",
+  employeeId: "EMP001",
+  firstName: "John",
+  lastName: "Doe",
+  email: "john@company.com",
+  department: "engineering",
+  position: "Developer",
+  hireDate: "2024-01-01",
 });
 ```
 
 ### Department Management
 
 ```typescript
-import { DepartmentEndpoints } from '@/api';
+import { DepartmentEndpoints } from "@/api";
 
 // Get departments
 const { departments } = await DepartmentEndpoints.getDepartments();
 
 // Create department
 const department = await DepartmentEndpoints.createDepartment({
-  name: 'Engineering',
-  description: 'Software development department'
+  name: "Engineering",
+  description: "Software development department",
 });
 ```
 
 ### Attendance Tracking
 
 ```typescript
-import { AttendanceEndpoints } from '@/api';
+import { AttendanceEndpoints } from "@/api";
 
 // Check in
 const attendance = await AttendanceEndpoints.checkIn({
-  employeeId: 'emp-id',
-  location: 'Office'
+  employeeId: "emp-id",
+  location: "Office",
 });
 
 // Check out
 await AttendanceEndpoints.checkOut(attendanceId, {
-  notes: 'Completed work'
+  notes: "Completed work",
 });
 
 // Get attendance report
 const report = await AttendanceEndpoints.getAttendanceReport({
-  startDate: '2024-01-01',
-  endDate: '2024-01-31'
+  startDate: "2024-01-01",
+  endDate: "2024-01-31",
 });
 ```
 
@@ -145,19 +145,19 @@ const report = await AttendanceEndpoints.getAttendanceReport({
 The `BaseApiService` provides common HTTP methods:
 
 ```typescript
-import { BaseApiService } from '@/api';
+import { BaseApiService } from "@/api";
 
 // GET request
-const data = await BaseApiService.get('/custom-endpoint');
+const data = await BaseApiService.get("/custom-endpoint");
 
 // POST request
-const result = await BaseApiService.post('/custom-endpoint', payload);
+const result = await BaseApiService.post("/custom-endpoint", payload);
 
 // PUT request
-await BaseApiService.put('/custom-endpoint', updates);
+await BaseApiService.put("/custom-endpoint", updates);
 
 // DELETE request
-await BaseApiService.delete('/custom-endpoint');
+await BaseApiService.delete("/custom-endpoint");
 ```
 
 ## 📝 Adding New Endpoints
@@ -172,7 +172,7 @@ Example:
 
 ```typescript
 // api/endpoints/leaves.ts
-import { BaseApiService } from '@/api/baseApiService';
+import { BaseApiService } from "@/api/baseApiService";
 
 export class LeaveEndpoints {
   static async getLeaves(employeeId: string) {
@@ -180,7 +180,7 @@ export class LeaveEndpoints {
   }
 
   static async requestLeave(leaveData: LeaveRequest) {
-    return BaseApiService.post('/leaves', leaveData);
+    return BaseApiService.post("/leaves", leaveData);
   }
 }
 ```
@@ -205,6 +205,6 @@ Endpoints throw errors that can be caught and handled:
 try {
   const result = await AuthEndpoints.login(credentials);
 } catch (error) {
-  console.error('Login failed:', error.response?.data?.message);
+  console.error("Login failed:", error.response?.data?.message);
 }
 ```

@@ -1,18 +1,18 @@
 .ag-theme-quartz {
-    --ag-header-background-color: transparent;
-    --ag-header-foreground-color: #94a3b8;
-    --ag-row-border-color: #f1f5f9;
-    --ag-borders: none;
-    --ag-header-column-separator-display: none;
-    --ag-header-column-resize-handle-display: none;
-    --ag-font-family: inherit;
-    --ag-font-size: 14px;
-    --ag-row-hover-color: #f8fafc;
+  --ag-header-background-color: transparent;
+  --ag-header-foreground-color: #94a3b8;
+  --ag-row-border-color: #f1f5f9;
+  --ag-borders: none;
+  --ag-header-column-separator-display: none;
+  --ag-header-column-resize-handle-display: none;
+  --ag-font-family: inherit;
+  --ag-font-size: 14px;
+  --ag-row-hover-color: #f8fafc;
 }
 .ag-theme-quartz .ag-header {
-    border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
 }
 .ag-theme-quartz .ag-cell {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }

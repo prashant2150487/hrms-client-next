@@ -1,6 +1,11 @@
-import { LoginRequest, RegisterRequest, User, ApiResponse, GetMeData } from '@/types/auth';
-import axiosInstance from '../axios';
-import { endPoints } from '../endpoints';
+import {
+  LoginRequest,
+  RegisterRequest,
+  ApiResponse,
+  GetMeData,
+} from "@/types/auth";
+import axiosInstance from "../axios";
+import { endPoints } from "../endpoints";
 
 export const login = (credentials: LoginRequest) => {
   return axiosInstance.post(endPoints.auth.login, credentials);
@@ -27,4 +32,4 @@ export const refreshToken = () => {
 
 export const verifyEmail = (token: string) => {
   return axiosInstance.post(endPoints.auth.verifyEmail, { token });
-}
+};

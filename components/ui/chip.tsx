@@ -25,7 +25,8 @@ export interface ChipProps extends React.HTMLAttributes<HTMLSpanElement> {
   onRemove?: () => void;
 }
 
-const base = "inline-flex items-center justify-center font-medium rounded-full transition-colors whitespace-nowrap";
+const base =
+  "inline-flex items-center justify-center font-medium rounded-full transition-colors whitespace-nowrap";
 
 const variants: Record<ChipVariant, string> = {
   primary: "bg-primary/10 text-primary",
@@ -44,7 +45,18 @@ const sizes: Record<ChipSize, string> = {
 };
 
 export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
-  ({ variant = "neutral", size = "md", label, icon, onRemove, className, ...rest }, ref) => {
+  (
+    {
+      variant = "neutral",
+      size = "md",
+      label,
+      icon,
+      onRemove,
+      className,
+      ...rest
+    },
+    ref
+  ) => {
     return (
       <span
         ref={ref}

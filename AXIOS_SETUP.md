@@ -5,6 +5,7 @@ This project uses a single enhanced axios instance for all API calls, without RT
 ## Setup
 
 The axios instance is configured with:
+
 - Base URL from environment variables
 - Automatic authentication token handling
 - Request/response interceptors for error handling
@@ -27,7 +28,7 @@ features/
 ### Auth Service
 
 ```typescript
-import { AuthService } from '@/features/auth/authApi';
+import { AuthService } from "@/features/auth/authApi";
 
 // Login
 const response = await AuthService.login({ email, password });
@@ -49,9 +50,9 @@ const tokens = await AuthService.refreshToken();
 ### In Components
 
 ```typescript
-import { AuthService } from '@/features/auth/authApi';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '@/features/auth/authSlice';
+import { AuthService } from "@/features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/features/auth/authSlice";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -59,13 +60,15 @@ function LoginForm() {
   const handleLogin = async (credentials) => {
     try {
       const response = await AuthService.login(credentials);
-      dispatch(setCredentials({
-        accessToken: response.accessToken,
-        refreshToken: response.refreshToken,
-        user: response.user
-      }));
+      dispatch(
+        setCredentials({
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken,
+          user: response.user,
+        })
+      );
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
     }
   };
 }
@@ -74,19 +77,19 @@ function LoginForm() {
 ### Direct Axios Usage
 
 ```typescript
-import axiosInstance from '@/config/axios/axiosInstance';
+import axiosInstance from "@/config/axios/axiosInstance";
 
 // GET request
-const data = await axiosInstance.get('/users');
+const data = await axiosInstance.get("/users");
 
 // POST request
-const result = await axiosInstance.post('/users', userData);
+const result = await axiosInstance.post("/users", userData);
 
 // PUT request
-await axiosInstance.put('/users/123', updateData);
+await axiosInstance.put("/users/123", updateData);
 
 // DELETE request
-await axiosInstance.delete('/users/123');
+await axiosInstance.delete("/users/123");
 ```
 
 ## Features
@@ -95,11 +98,12 @@ await axiosInstance.delete('/users/123');
 ✅ **Automatic Auth** - Tokens added to requests automatically  
 ✅ **Error Handling** - Interceptors handle 401/403/5xx errors  
 ✅ **TypeScript Support** - Fully typed responses  
-✅ **Redux Integration** - Works with existing auth slice  
+✅ **Redux Integration** - Works with existing auth slice
 
 ## Environment Variables
 
 Make sure to set:
+
 ```
 NEXT_PUBLIC_API_BASE_URL=your_api_base_url
 ```
@@ -107,6 +111,7 @@ NEXT_PUBLIC_API_BASE_URL=your_api_base_url
 ## Error Handling
 
 The axios instance automatically:
+
 - Handles 401 errors by clearing tokens
 - Shows appropriate error messages for 403/5xx errors
 - Rejects promises with proper error objects

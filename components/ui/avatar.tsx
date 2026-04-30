@@ -1,5 +1,6 @@
 import React, { forwardRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
@@ -28,7 +29,10 @@ const sizes: Record<AvatarSize, string> = {
 };
 
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
-  ({ src, alt, fallback, size = "md", name, description, className, ...rest }, ref) => {
+  (
+    { src, alt, fallback, size = "md", name, description, className, ...rest },
+    ref
+  ) => {
     const [imageError, setImageError] = useState(false);
 
     const getInitials = (str: string) => {
@@ -50,7 +54,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         {...(!name ? rest : {})}
       >
         {src && !imageError ? (
-          <img
+          <Image
             src={src}
             alt={alt || name || "Avatar"}
             className="aspect-square h-full w-full object-cover"
@@ -73,12 +77,20 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     }
 
     return (
-      <div ref={ref} className={cn("flex items-center gap-3", className)} {...rest}>
+      <div
+        ref={ref}
+        className={cn("flex items-center gap-3", className)}
+        {...rest}
+      >
         {avatarNode}
         <div className="flex flex-col truncate">
-          <span className="font-medium text-slate-900 leading-tight truncate">{name}</span>
+          <span className="font-medium text-slate-900 leading-tight truncate">
+            {name}
+          </span>
           {description && (
-            <span className="text-sm text-slate-500 leading-tight truncate mt-0.5">{description}</span>
+            <span className="text-sm text-slate-500 leading-tight truncate mt-0.5">
+              {description}
+            </span>
           )}
         </div>
       </div>

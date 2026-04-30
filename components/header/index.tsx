@@ -1,23 +1,23 @@
 import { RootState } from "@/store";
-import {
-  Search,
-  Bell,
-  ChevronDown,
-  UserCircle,
-} from "lucide-react";
+
 import { useSelector } from "react-redux";
-import img1 from "../../public/assets/images/profile.jpg"
+import img1 from "../../public/assets/images/profile.jpg";
 import Image from "next/image";
+import { Bell, Search } from "lucide-react";
 
 export function Header() {
   const { employee, user } = useSelector((state: RootState) => state.auth);
-  const userName = employee ? `${employee.first_name}${employee.last_name ? ` ${employee.last_name}` : ""}` : "Guest";
+  const userName = employee
+    ? `${employee.first_name}${employee.last_name ? ` ${employee.last_name}` : ""}`
+    : "Guest";
 
   return (
     <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-4">
         <div className="">
-          <p className="text-lg font-bold uppercase text-black">hello {employee?.first_name ?? "Guest"}</p>
+          <p className="text-lg font-bold uppercase text-black">
+            hello {employee?.first_name ?? "Guest"}
+          </p>
           <h1 className="text-sm text-gray-500">Good Morning</h1>
         </div>
 
@@ -35,18 +35,18 @@ export function Header() {
             <Bell className="h-5 w-5 text-black" />
           </button>
 
-          <button className="inline-flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-2 py-2 text-sm font-medium text-slate-700  transition hover:bg-slate-50">
+          <button className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-700  transition hover:bg-slate-50">
             <div>
-              <Image src={img1} alt="Profile" className="h-7 w-7 rounded-md" />
+              <Image src={img1} alt="Profile" className="size-11 rounded-md" />
             </div>
-            <div className="flex flex-col gap-2">
-              <span className="hidden sm:inline font-bold text-md">{userName}</span>
-              <span className="" >
-                {user?.role?.label || ""}
+            <div className="flex flex-col items-start justify-start">
+              <span className="hidden sm:inline font-bold text-md">
+                {userName}
               </span>
+              <span className="">{user?.role?.label || ""}</span>
             </div>
 
-            <ChevronDown className="h-4 w-4 text-slate-500" />
+            {/* <ChevronDown className="h-4 w-4 text-slate-500" /> */}
           </button>
         </div>
       </div>

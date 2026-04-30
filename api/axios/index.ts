@@ -35,7 +35,9 @@ axiosInstance.interceptors.response.use(
 
   async (error: AxiosError) => {
     const status = error.response?.status;
-    const originalRequest: any = error.config;
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
     // 🔁 Handle expired access token
     if (status === 401 && !originalRequest._retry) {

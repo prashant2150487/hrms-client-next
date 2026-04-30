@@ -11,14 +11,14 @@
   --font-poppins: var(--font-poppins);
   --font-mono: var(--font-geist-mono);
 
-  --color-primary: #7152F3;
-  --color-primary-hover: #6344D9;
-  --color-secondary: #A8D122;
-  --color-tertiary: #C9178E;
-  --color-dark: #16151C;
-  --color-gray-normal: #A2A1A8;
-  --color-light-bg: #F4F4F4;
-  --color-gray-500: #A2A1A8
+  --color-primary: #7152f3;
+  --color-primary-hover: #6344d9;
+  --color-secondary: #a8d122;
+  --color-tertiary: #c9178e;
+  --color-dark: #16151c;
+  --color-gray-normal: #a2a1a8;
+  --color-light-bg: #f4f4f4;
+  --color-gray-500: #a2a1a8;
 }
 
 @media (prefers-color-scheme: dark) {

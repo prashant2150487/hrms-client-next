@@ -18,7 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "hrms",
-  description: "A modern HR management system built with Next.js, React, and TypeScript. Streamline your HR processes with features like employee management, attendance tracking, and performance reviews. Designed for modern teams to enhance productivity and engagement.",
+  description:
+    "A modern HR management system built with Next.js, React, and TypeScript. Streamline your HR processes with features like employee management, attendance tracking, and performance reviews. Designed for modern teams to enhance productivity and engagement.",
 };
 
 export default function RootLayout({
@@ -28,9 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${poppins.variable} ${geistMono.variable} antialiased`}>
         <Toaster />
         <Providers>
           <StoreProvider>{children}</StoreProvider>

@@ -1,9 +1,5 @@
 export type EmployeeStatus = "active" | "inactive" | "terminated";
-export type EmploymentType =
-  | "full_time"
-  | "part_time"
-  | "contract"
-  | "intern";
+export type EmploymentType = "full_time" | "part_time" | "contract" | "intern";
 
 export interface Employee {
   id: string;

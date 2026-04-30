@@ -15,8 +15,7 @@ export type ButtonVariant =
 
 export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style */
   variant?: ButtonVariant;
   /** Height / padding / font-size preset */
@@ -36,7 +35,6 @@ export interface ButtonProps
   error?: string;
   /** Render as a different element (e.g. "a") */
   as?: React.ElementType;
-
 }
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
@@ -63,9 +61,7 @@ const variants: Record<ButtonVariant, string> = {
   outline:
     "bg-transparent text-primary border border-gray-500 " +
     "hover:bg-primary/8 hover:-translate-y-px",
-  ghost:
-    "bg-transparent text-primary " +
-    "hover:bg-primary/8",
+  ghost: "bg-transparent text-primary " + "hover:bg-primary/8",
   danger:
     "bg-red-600 text-white shadow-[0_1px_2px_rgba(220,38,38,.18),0_2px_8px_rgba(220,38,38,.14)] " +
     "hover:bg-red-700 hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(220,38,38,.28)]",
@@ -205,7 +201,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </div>
         )}
       </>
-
     );
   }
 );

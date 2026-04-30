@@ -26,7 +26,14 @@ const authSlice = createSlice({
     setPermissions: (state, action: PayloadAction<string[]>) => {
       state.permissions = action.payload;
     },
-    setAuthData: (state, action: PayloadAction<{ userDetails: User; employeeDetails: Employee; permissions: string[] }>) => {
+    setAuthData: (
+      state,
+      action: PayloadAction<{
+        userDetails: User;
+        employeeDetails: Employee;
+        permissions: string[];
+      }>
+    ) => {
       state.user = action.payload.userDetails;
       state.employee = action.payload.employeeDetails;
       state.permissions = action.payload.permissions;
@@ -39,5 +46,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, setEmployee, setPermissions, setAuthData, logout } = authSlice.actions;
+export const { setUser, setEmployee, setPermissions, setAuthData, logout } =
+  authSlice.actions;
 export default authSlice.reducer;
