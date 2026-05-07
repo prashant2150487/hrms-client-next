@@ -28,6 +28,12 @@ export const getAllEmployees = async (
   });
   return res.data;
 };
+
+export const getEmployeeById = async (id: string) => {
+  const res = await axiosInstance.get(endPoints.employees.getById(id));
+  return res.data;
+};
+
 export const createEmployee = async (employeeData: CreateEmployee) => {
   const res = await axiosInstance.post(
     endPoints.employees.create,

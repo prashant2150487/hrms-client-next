@@ -77,7 +77,7 @@ export function Sidebar() {
             <div
               key={item.title}
               onClick={() => handleNevigate(item.href, index)}
-              className={`group flex items-center px-4 py-2 text-sm transition font-poppins ${
+              className={`group flex cursor-pointer items-center px-4 py-2 text-sm transition font-poppins ${
                 item.active
                   ? "bg-violet-50 border-l-4 border-[#7152F3] text-[#7152F3] font-extrabold"
                   : "text-[#16151C] hover:bg-slate-100 hover:text-slate-900"

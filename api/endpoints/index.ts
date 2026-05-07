@@ -11,6 +11,7 @@ export const endPoints = {
   employees: {
     getAll: "employees",
     create: "employees",
+    getById: (id: string) => `employees/${id}`,
     update: (id: string) => `employees/${id}`,
     delete: (id: string) => `employees/${id}/remove`,
   },

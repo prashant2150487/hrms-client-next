@@ -3,6 +3,7 @@ import React, { useState, useMemo, type ChangeEvent } from "react";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { Search, Eye, Pencil, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import type { Employee } from "@/api/employees/typing";
 import Avatar from "@/components/ui/avatar";
 import Chip from "@/components/ui/chip";
@@ -41,6 +42,7 @@ const EmployeeTable = ({
   setSearch,
   search,
 }: EmployeeTableProps) => {
+  const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -53,96 +55,100 @@ const EmployeeTable = ({
     setSearch(e.target.value);
   };
 
-  const columnDefs = useMemo<ColDef<Employee>[]>(
-    () => [
-      {
-        headerName: "Employee Name",
-        field: "first_name",
-        valueGetter: (params) =>
-          `${params.data?.first_name || ""} ${params.data?.last_name || ""}`,
-        cellRenderer: (params: ICellRendererParams<Employee>) => {
-          return <Avatar name={params.value} size="md" />;
-        },
-        flex: 2,
-        minWidth: 250,
+  const columnDefs: ColDef<Employee>[] = [
+    {
+      headerName: "Employee Name",
+      field: "first_name",
+      valueGetter: (params) =>
+        `${params.data?.first_name || ""} ${params.data?.last_name || ""}`,
+      cellRenderer: (params: ICellRendererParams<Employee>) => {
+        return <Avatar name={params.value} size="md" />;
       },
-      {
-        headerName: "Employee ID",
-        field: "emp_code",
-        flex: 1.5,
-        minWidth: 150,
-        cellStyle: { color: "#475569" },
+      flex: 2,
+      minWidth: 250,
+    },
+    {
+      headerName: "Employee ID",
+      field: "emp_code",
+      flex: 1.5,
+      minWidth: 150,
+      cellStyle: { color: "#475569" },
+    },
+    {
+      headerName: "Department",
+      field: "department_id",
+      cellRenderer: () => "Design", // Mock data mapping for visual match
+      flex: 1.5,
+      cellStyle: { color: "#475569" },
+    },
+    {
+      headerName: "Designation",
+      field: "designation_id",
+      cellRenderer: () => "UI/UX Designer", // Mock data mapping for visual match
+      flex: 2,
+      cellStyle: { color: "#475569" },
+    },
+    {
+      headerName: "Type",
+      field: "employment_type",
+      cellRenderer: (params: ICellRendererParams<Employee>) => {
+        if (params.value === "full_time") return "Office";
+        if (params.value === "part_time") return "Part Time";
+        return "Office";
       },
-      {
-        headerName: "Department",
-        field: "department_id",
-        cellRenderer: () => "Design", // Mock data mapping for visual match
-        flex: 1.5,
-        cellStyle: { color: "#475569" },
+      flex: 1,
+      cellStyle: { color: "#475569" },
+    },
+    {
+      headerName: "Status",
+      field: "status",
+      cellRenderer: () => {
+        return <Chip label="Permanent" variant="primary" size="sm" />;
       },
-      {
-        headerName: "Designation",
-        field: "designation_id",
-        cellRenderer: () => "UI/UX Designer", // Mock data mapping for visual match
-        flex: 2,
-        cellStyle: { color: "#475569" },
+      flex: 1.5,
+    },
+    {
+      headerName: "Action",
+      cellRenderer: (params: ICellRendererParams<Employee>) => {
+        return (
+          <div className="flex gap-4 items-center h-full">
+            <button
+              onClick={() => {
+                if (params.data?.id) {
+                  router.push(`/employees/${params.data.id}`);
+                }
+              }}
+              className="text-slate-500 hover:text-slate-800 transition"
+            >
+              <Eye className="w-[18px] h-[18px]" />
+            </button>
+            <button
+              className="text-slate-500 hover:text-slate-800 transition"
+              onClick={() => {
+                setEmployeeToUpdate(params.data ?? null);
+                setShowUpdateModal(true);
+              }}
+            >
+              <Pencil className="w-[18px] h-[18px]" />
+            </button>
+            <button
+              className="text-slate-500 hover:text-red-500 transition"
+              onClick={() => {
+                setEmployeeToDelete(params.data?.id ?? null);
+                setShowDeleteModal(true);
+              }}
+            >
+              <Trash2 className="w-[18px] h-[18px]" />
+            </button>
+          </div>
+        );
       },
-      {
-        headerName: "Type",
-        field: "employment_type",
-        cellRenderer: (params: ICellRendererParams<Employee>) => {
-          if (params.value === "full_time") return "Office";
-          if (params.value === "part_time") return "Part Time";
-          return "Office";
-        },
-        flex: 1,
-        cellStyle: { color: "#475569" },
-      },
-      {
-        headerName: "Status",
-        field: "status",
-        cellRenderer: () => {
-          return <Chip label="Permanent" variant="primary" size="sm" />;
-        },
-        flex: 1.5,
-      },
-      {
-        headerName: "Action",
-        cellRenderer: (params: ICellRendererParams<Employee>) => {
-          return (
-            <div className="flex gap-4 items-center h-full">
-              <button className="text-slate-500 hover:text-slate-800 transition">
-                <Eye className="w-[18px] h-[18px]" />
-              </button>
-              <button
-                className="text-slate-500 hover:text-slate-800 transition"
-                onClick={() => {
-                  setEmployeeToUpdate(params.data);
-                  setShowUpdateModal(true);
-                }}
-              >
-                <Pencil className="w-[18px] h-[18px]" />
-              </button>
-              <button
-                className="text-slate-500 hover:text-red-500 transition"
-                onClick={() => {
-                  setEmployeeToDelete(params.data?.id);
-                  setShowDeleteModal(true);
-                }}
-              >
-                <Trash2 className="w-[18px] h-[18px]" />
-              </button>
-            </div>
-          );
-        },
-        flex: 1.5,
-        sortable: false,
-        filter: false,
-        minWidth: 120,
-      },
-    ],
-    []
-  );
+      flex: 1.5,
+      sortable: false,
+      filter: false,
+      minWidth: 120,
+    },
+  ];
 
   const defaultColDef = useMemo<ColDef>(
     () => ({
