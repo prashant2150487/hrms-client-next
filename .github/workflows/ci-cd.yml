@@ -1,21 +1,29 @@
-name: CI/CD Pipeline
+name: HRMS Client CI/CD
 
 on:
   push:
-    branches: ["main", "dev"]
+    branches:
+      - main
+      - dev
+
   pull_request:
-    branches: ["main", "dev"]
+    branches:
+      - main
+      - dev
 
 jobs:
-  lint-and-format:
+  lint-test-build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "yarn"
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -23,16 +31,30 @@ jobs:
       - name: Run Prettier
         run: yarn prettier --check .
 
-      - name: Run Lint
+      - name: Run ESLint
         run: yarn lint
 
+      - name: Run Tests
+        run: yarn test --passWithNoTests
+
+      - name: Build Next.js App
+        run: yarn build
+
   docker-build:
-    needs: lint-and-format
+    needs: lint-test-build
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Docker Buildx
-        uses: actions/setup-buildx-action@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        run: yarn docker:build
+        run: docker build -t hrms-client:latest .
