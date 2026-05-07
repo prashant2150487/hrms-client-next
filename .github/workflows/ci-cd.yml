@@ -35,5 +35,4 @@ jobs:
         uses: actions/setup-buildx-action@v3
 
       - name: Build Docker image
-        run: |
-          docker build -t hrms-client:latest .
+        run: yarn docker:build

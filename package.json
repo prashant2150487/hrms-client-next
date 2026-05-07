@@ -11,7 +11,9 @@
     "prettier": "prettier",
     "format": "prettier --write .",
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docker:build": "docker build -t hrms-client:latest .",
+    "docker:run": "docker run -p 3000:3000 hrms-client"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
